@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+   
+    <link rel="stylesheet" href="style.css" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
 </head>
@@ -24,7 +26,7 @@
             <?php } ?>
         <div class="mb-3">
         <label for="username" 
-            class="form-label">Username</label>
+            class="form-label"><b>Username </b></label>
         <input type="text" 
             class="form-control" 
             name="username"
@@ -33,7 +35,7 @@
        
         <div class="mb-3">
         <label for="password" 
-            class="form-label">Password</label>
+            class="form-label"><b>Password</b></label>
         <input type="password" 
             class="form-control" 
             name="password"
@@ -41,7 +43,7 @@
         </div>
         
         <div class="mb-1">
-        <label  class="form-label">Select User Type</label>
+        <label  class="form-label"><b>Select User Type</b></label>
         
         </div>
         <select class="form-select mb-3"
