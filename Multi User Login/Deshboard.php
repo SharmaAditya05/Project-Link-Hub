@@ -59,7 +59,7 @@ $result=mysqli_query($conn,$query);
 </div>
 
 
-	<table align="center" border="1px" style="width:600px; line-height:40px;"> 
+	<table align="center" border="1px" style="color:white; width:600px; line-height:40px;"> 
 	<tr> 
 		<th colspan="4"><h2>Student Record</h2></th> 
 		</tr> 
@@ -70,13 +70,17 @@ $result=mysqli_query($conn,$query);
 			  
 		</tr> 
 		
-		<?php while($rows=mysqli_fetch_assoc($result))  
+		<?php 
+    $i=0;
+    while($rows=mysqli_fetch_assoc($result))  
 		{ 
+      $i++;
 		?> 
 		<tr> <td><?php echo $rows['fid']; ?></td> 
 		<td><?php echo $rows['ProjectTitle']; ?></td> 
 		<td><?php echo $rows['ProjectDesc']; ?></td> 
 		<td><?php echo $rows['Status'] ?></td> 
+    <td><input type="button" name="<?php echo 'apply'.$i ?>" value="Apply"></td> 
 		</tr> 
 	<?php 
                } 
