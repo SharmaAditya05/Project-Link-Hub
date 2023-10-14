@@ -17,7 +17,7 @@ $result=mysqli_query($conn,$query);
 	<head> 
 		<title> Fetch Data From Database </title> 
         
-    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="stylesheet" href="mystyle.css" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 	</head> 
 	<body> 
@@ -41,10 +41,7 @@ $result=mysqli_query($conn,$query);
     <a class="element" href="#">
         <i class="fa fa-gavel"></i> Request Form
       </a>
-    <a class="element" href="AddProject.php">
-        <i class="fa fa-cogs"></i> Add Projects
-      </a>
-    <a class="element" href="#">
+    <a class="element" href="logout.php">
         <i class="fa fa-cogs"></i> Logout
       </a>
   </div>
@@ -59,7 +56,7 @@ $result=mysqli_query($conn,$query);
 </div>
 
 
-	<table align="center" border="1px" style="color:white; width:600px; line-height:40px;"> 
+	<table align="center" border="1px" style="color:white; width:800px; line-height:40px;"> 
 	<tr> 
 		<th colspan="4"><h2>Student Record</h2></th> 
 		</tr> 
@@ -80,7 +77,7 @@ $result=mysqli_query($conn,$query);
 		<td><?php echo $rows['ProjectTitle']; ?></td> 
 		<td><?php echo $rows['ProjectDesc']; ?></td> 
 		<td><?php echo $rows['Status'] ?></td> 
-    <td><input type="button" name="<?php echo 'apply'.$i ?>" value="Apply"></td> 
+    <td><input class="btn btn-success m-4" type="button" name="<?php echo 'apply'.$i ?>" value="Apply"></td> 
 		</tr> 
 	<?php 
                } 

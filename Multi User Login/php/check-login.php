@@ -37,8 +37,9 @@ include "..//db_conn.php";
                     $_SESSION['id']=$row['id'];
                     $_SESSION['role']=$row['role'];
                     $_SESSION['username']=$row['username'];
-
-                    header("Location: ../home.php");
+                    if($_SESSION['role']=='faculty')
+                          header("Location: ../homef.php");
+                    else  header("Location: ../home.php");
 
                 }
                 else{

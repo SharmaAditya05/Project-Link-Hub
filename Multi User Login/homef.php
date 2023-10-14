@@ -2,6 +2,11 @@
 <html>
 <head>
     <link rel="stylesheet" href="style.css" type="text/css">
+    <style>
+        body{
+                background-image:url("web-1012467_1280.webp");
+        }
+    </style>
 </head>
 <body>
     
@@ -15,13 +20,12 @@
     <a class="element" href="#">
         <i class="fa fa-leaf"></i> Home
       </a>
-    <a class="element" href="Deshboard.php">
-        <i class="fa fa-money"></i>  Project Deshboard
-      </a>
     <a class="element" href="#">
-        <i class="fa fa-gavel"></i> Request Form
+        <i class="fa fa-gavel"></i> Requests
       </a>
-   
+    <a class="element" href="AddProject.php">
+        <i class="fa fa-cogs"></i> Add Projects
+      </a>
     <a class="element" href="logout.php">
         <i class="fa fa-cogs"></i> Logout
       </a>

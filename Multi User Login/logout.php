@@ -1,7 +1,8 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="stylesheet" href="mystyle.css" type="text/css">
 </head>
 <body>
     
@@ -22,7 +23,7 @@
         <i class="fa fa-gavel"></i> Request Form
       </a>
    
-    <a class="element" href="logout.php">
+    <a class="element" href="#">
         <i class="fa fa-cogs"></i> Logout
       </a>
   </div>
@@ -35,5 +36,21 @@
     </div>
   </div>
 </div>
+<form action="" method="POST"> 
+    <label for="out">Do you want to logout?</label>
+  <input type="submit" name="Logout" value="Logout" id="out"> 
+</form> 
+<?php 
+
+if(isset($_POST['Logout']))
+{
+  session_unset();
+  session_destroy(); 
+  header("Location: index.php"); 
+  exit; 
+}
+?> 
+
+
 </body>
 </html>
