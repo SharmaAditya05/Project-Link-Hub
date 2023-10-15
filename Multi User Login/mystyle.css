@@ -9,7 +9,18 @@ html, body {
     background-repeat: no-repeat;
     
   }
-  
+  .aboutus
+      {
+        margin-top:20px ;
+        text-align: center;
+      }
+  .aboutcon
+      {
+        text-align: justify;
+      justify-content: center;
+      margin-left: 30%;
+        margin-right: 30%;
+      }
   .text-center {
     text-align: center;
   }
@@ -182,7 +193,5 @@ html, body {
       opacity: 1;
     }
   }
-  
-  
   
   
