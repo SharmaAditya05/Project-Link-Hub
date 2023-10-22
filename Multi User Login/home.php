@@ -2,8 +2,8 @@
 <html>
 <head>
     <link rel="stylesheet" href="mystyle.css" type="text/css">
-     <!-- <style>
-            .aboutus
+     <style>
+      .aboutus
       {
         margin-top:100px;
         text-align: center;
@@ -18,7 +18,7 @@
       body{
         overflow:hidden;
       }
-    </style>  -->
+    </style> 
 </head>
 <body>
     

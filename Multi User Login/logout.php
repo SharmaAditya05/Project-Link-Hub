@@ -53,6 +53,7 @@
     <h5 class="card-title" style="text-align:center">Logout</h5>
     <p class="card-text">Do you really want to logout? </p>
     <input class="btn btn-primary" type="submit" name="Logout" value="Logout" id="out"> 
+    <input class="btn btn-primary" type="submit" name="Cancel" value="Cancel" id="out"> 
     
   </div>
 </div>
@@ -67,6 +68,11 @@ if(isset($_POST['Logout']))
   session_unset();
   session_destroy(); 
   header("Location: index.php"); 
+  exit; 
+}
+if(isset($_POST['Cancel']))
+{
+  header("Location: homef.php"); 
   exit; 
 }
 ?> 
