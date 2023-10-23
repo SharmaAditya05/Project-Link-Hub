@@ -2,23 +2,6 @@
 <html>
 <head>
     <link rel="stylesheet" href="mystyle.css" type="text/css">
-     <style>
-      .aboutus
-      {
-        margin-top:100px;
-        text-align: center;
-      }
-      .aboutcon
-      {
-        text-align: justify;
-      justify-content: center;
-      margin-left: 30%;
-        margin-right: 30%;
-      }
-      body{
-        overflow:hidden;
-      }
-    </style> 
 </head>
 <body>
     
@@ -35,8 +18,8 @@
     <a class="element" href="Deshboard.php">
         <i class="fa fa-money"></i>  Project Deshboard
       </a>
-    <a class="element" href="#">
-        <i class="fa fa-gavel"></i> Request Form
+    <a class="element" href="suggest.php">
+        <i class="fa fa-gavel"></i> Give Suggestions 
       </a>
    
     <a class="element" href="logout.php">
