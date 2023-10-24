@@ -21,9 +21,7 @@
     <i class="fa fa-css3"></i>
   </div>
   <div class="elements-container dflex">
-    <a class="element" href="home.php">
-        <i class="fa fa-leaf"></i> Home
-      </a>
+   
     <a class="element" href="Deshboard.php">
         <i class="fa fa-money"></i>  Project Deshboard
       </a>

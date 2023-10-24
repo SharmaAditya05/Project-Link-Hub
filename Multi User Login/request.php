@@ -8,7 +8,9 @@ if (!$conn) {
     echo "Connection failed";
     exit();
 }
-$query = "select * from `request` where status='pending'";
+session_start();
+$fid=$_SESSION['id'];
+$query = "select * from `request` where status='pending' AND fid='$fid'";
 $result = mysqli_query($conn, $query);
 ?>
 <!DOCTYPE html>
@@ -28,9 +30,7 @@ $result = mysqli_query($conn, $query);
             <i class="fa fa-css3"></i>
         </div>
         <div class="elements-container dflex">
-            <a class="element" href="homef.php">
-                <i class="fa fa-leaf"></i> Home
-            </a>
+            
             <a class="element" href="Deshboardf.php">
                 <i class="fa fa-leaf"></i> Deshboard
             </a>

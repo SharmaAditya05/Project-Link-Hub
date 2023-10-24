@@ -15,11 +15,11 @@ include "..//db_conn.php";
           $role = test_input($_POST['role']);
 
           if((empty($username))){
-            header("Location: ../index.php?error= User Name is Requires");    
+            header("Location: ../login.php?error= User Name is Requires");    
           }
           
           else if((empty($password))){
-            header("Location: ../index.php?error= Password is Requires");    
+            header("Location: ../login.php?error= Password is Requires");    
           }
         
           else{
@@ -38,22 +38,22 @@ include "..//db_conn.php";
                     $_SESSION['role']=$row['role'];
                     $_SESSION['username']=$row['username'];
                     if($_SESSION['role']=='faculty')
-                          header("Location: ../homef.php");
-                    else  header("Location: ../home.php");
+                          header("Location: ../Deshboardf.php");
+                    else  header("Location: ../Deshboard.php");
 
                 }
                 else{
-                    header("Location: ../index.php?error= Password is Requires");    
+                    header("Location: ../login.php?error= Password is Requires");    
                 }
             }
             else{
-                header("Location: ../index.php?error= Incorrect user name or password");    
+                header("Location: ../login.php?error= Incorrect user name or password");    
                 
             }
           }
           
     }
     else{
-        header("Location: ../index.php");
+        header("Location: ../login.php");
     }
 ?>

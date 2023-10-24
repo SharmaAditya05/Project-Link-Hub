@@ -9,7 +9,9 @@ if(!$conn){
     echo "Connection failed";
     exit();
 }
-$query="select * from `request` where status='approved'"; 
+session_start();
+$fid=$_SESSION['id'];
+$query="select * from `request` where status='approved' AND fid='$fid'"; 
 $result=mysqli_query($conn,$query); 
 ?> 
 <!DOCTYPE html> 
@@ -33,9 +35,7 @@ $result=mysqli_query($conn,$query);
   </div>
   
   <div class="elements-container dflex">
-    <a class="element" href="homef.php">
-        <i class="fa fa-leaf"></i> Home
-      </a>
+ 
       <a class="element" href="Deshboardf.php">
         <i class="fa fa-leaf"></i> Deshboard
       </a>
