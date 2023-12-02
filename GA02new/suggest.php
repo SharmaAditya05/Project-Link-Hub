@@ -37,6 +37,9 @@
             <a class="element" href="myproject.php">
                 <i class="fa fa-money"></i> Project Dashboard
             </a>
+            <a class="element" href="my_suggestions.php">
+                <i class="fa fa-list"></i> My Suggestions
+            </a>
             <a class="element" href="Dashboard.php">
                 <i class="fa fa-money"></i> Project Ideas
             </a>
@@ -162,7 +165,7 @@ if(isset($_POST['ADD']))
 	VALUES('$sname','$ProjectTitle', '$ProjectDesc',now());";
 	if(mysqli_query($conn,$sql)){
     echo '<script>
-    document.getElementById("popupMessage").innerHTML = "Your suggestions have been well noted! \n ThankYou";
+    document.getElementById("popupMessage").innerHTML = "Your suggestions have been well noted!  Thankyou";
     document.getElementById("myModal").style.display = "block";
 </script>';}
 	else{

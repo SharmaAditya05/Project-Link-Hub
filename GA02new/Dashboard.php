@@ -9,7 +9,7 @@ if (!$conn) {
     echo "Connection failed";
     exit();
 }
-
+$sname= $_SESSION['username'];
 $query = "select * from `record`";
 $result = mysqli_query($conn, $query);
 ?>
@@ -112,27 +112,25 @@ $result = mysqli_query($conn, $query);
         </tr>
 
         <?php
-        while ($row = mysqli_fetch_assoc($result)) {
-            // Your PHP code for data retrieval goes here
-            $fid = $row['fid'];
-            $query = "SELECT `name` FROM `users` WHERE `id` = '$fid'";
-            $innerResult = mysqli_query($conn, $query);
-            
-            if ($innerResult) {
-                if (mysqli_num_rows($innerResult) == 1) {
-                    $rowa = mysqli_fetch_assoc($innerResult);
-                    $name = $rowa['name'];
+            while ($row = mysqli_fetch_assoc($result)) {
+                $fid = $row['fid'];
+                $innerquery = "SELECT `name` FROM `users` WHERE `id` = '$fid'";
+                $innerResult = mysqli_query($conn, $innerquery);
+                $name="";
+                if ($innerResult) {
+                    if (mysqli_num_rows($innerResult) == 1) {
+                        $rowa = mysqli_fetch_assoc($innerResult);
+                        $name = $rowa['name'];
+                    }else {
+                        echo "Invalid credentials. Please try again later.";
+                    }
                 } else {
-                    echo "Invalid credentials. Please try again.";
+                    echo "Error in the query: " . mysqli_error($conn);
                 }
-            }
-            else {
-                echo "Error in the query: " . mysqli_error($conn);
-            }
-        ?>
-            <tr>
-                <td><?php echo $name; ?></td>
-                <td><?php echo $row['pid']; ?></td>
+            ?>
+             <tr>
+                    <td><?php echo $name; ?></td>
+                    <td><?php echo $row['pid']; ?></td>
                 <td><?php echo $row['ProjectTitle']; ?></td>
                 <td><?php echo $row['ProjectDesc']; ?></td>
                 <td style="background-color: <?php echo ($row['Status'] == 1) ? 'lightgreen' : 'rgb(255, 127, 127)'; ?>;">
@@ -145,10 +143,14 @@ $result = mysqli_query($conn, $query);
                 </td>
                 <td>
                     <?php 
-                    if($row['Status']==1){
+                    $existingUser = "SELECT * FROM `request` WHERE `Sname`='$sname' and `status`='approved'";
+                    $existingUserquery = mysqli_query($conn, $existingUser);
+
+                    if($row['Status']==1 && mysqli_num_rows($existingUserquery)==0){
                         ?>
                     <form action="" method="POST">
                         <input type="hidden" name="id" value="<?php echo $row['fid']; ?>" />
+                        <input type="hidden" name="id" value="<?php echo $row['ProjectTitle']; ?>" />
                         <input type="submit" name="request_<?php echo $row['pid']; ?>" value="Request">
                     </form>
                     <?php }
@@ -163,7 +165,7 @@ $result = mysqli_query($conn, $query);
                         $pt = mysqli_real_escape_string($conn, $pt);
                         $pid = mysqli_real_escape_string($conn, $pid);
                         $fid = mysqli_real_escape_string($conn, $fid);
-                        $sname= $_SESSION['username'];
+                        
                          // Check if the user has already requested the same project
                         $existingRequestQuery = "SELECT * FROM `request` WHERE `pid`='$pid' AND `fid`='$fid' AND `Sname`='$sname'";
                         $existingRequestResult = mysqli_query($conn, $existingRequestQuery);
@@ -176,7 +178,7 @@ $result = mysqli_query($conn, $query);
                         </script>';
                         } 
                         else {
-                        if ($row['Status'] == 1) {
+                        
                             $id=$_SESSION['id'];
                             
                         $sql = "INSERT INTO `request` (`id`,`pid`,`fid`,`Sname`, `ProjectTitle`,`status`) 
@@ -187,15 +189,10 @@ $result = mysqli_query($conn, $query);
                             document.getElementById("popupMessage").innerHTML = "Your request has been submitted successfully";
                             document.getElementById("myModal").style.display = "block";
                         </script>';
-                        } else {
+                        
+                        }else{
                             echo "Error inserting request: " . mysqli_error($conn);
                         }
-                    }else {
-                        echo '<script>
-                            document.getElementById("popupMessage").innerHTML = "Sorry! The Project is Unavailable";
-                            document.getElementById("myModal").style.display = "block";
-                        </script>';
-                    }
                     }
                 }
                     ?>

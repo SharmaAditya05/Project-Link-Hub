@@ -1,5 +1,7 @@
 <?php
 session_start();
+ob_start();
+ob_end_flush();
 $sname = "localhost";
 $uname = "root";
 $password = "";
@@ -66,11 +68,30 @@ $result = mysqli_query($conn, $query);
             </div>
         </div>
     </div>
+    <div id="myModal" class="modal1">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <p id="popupMessage">Sorry! The Project is Unavailable</p>
+        </div>
+    </div>
+    <script>
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+        document.getElementById("closeModal").addEventListener("click", closeModal);
+        window.addEventListener("click", function (event) {
+            if (event.target == document.getElementById("myModal")) {
+                closeModal();
+            }
+        });
+    </script>
+    
 
     <h1 style="text-align:center;padding-top:20px;">Suggestions</h1>
     <table>
         <tr>
-            <th> Student </th>
+            <th> Given By </th>
             <th> Project-Title </th>
             <th> Project-Description </th>
             <th> Time </th>
@@ -82,19 +103,28 @@ $result = mysqli_query($conn, $query);
         while ($rows = mysqli_fetch_assoc($result)) {
             $i++;
         ?>
-        <tr>
-            <td><?php echo $rows['Sname']; ?></td>
-            <td><?php echo $rows['ProjectTitle']; ?></td>
-            <td><?php echo $rows['ProjectDesc']; ?></td>
-            <td><?php echo $rows['Time']; ?></td>
-            <td>
-                <!-- Add the ADD button in each row with a unique name -->
-                <form action="" method="POST" style="margin: 0;">
-                    <input type="hidden" name="suggestionId" value="<?php echo $rows['sid']; ?>">
-                    <input class="btn btn-success" name="ADD_<?php echo $i; ?>" type="submit" value="ADD">
-                </form>
-            </td>
-        </tr>
+            <tr>
+                <td><?php echo $rows['Sname']; ?></td>
+                <td><?php echo $rows['ProjectTitle']; ?></td>
+                <td><?php echo $rows['ProjectDesc']; ?></td>
+                <td><?php echo $rows['Time']; ?></td>
+                <td>
+                    <?php
+                    if ($rows['status'] == 'pending') {
+                    ?>
+                        <form action="" method="POST" style="margin: 0;">
+                            <input type="hidden" name="suggestionId" value="<?php echo $rows['sid']; ?>">
+                            <input class="btn btn-success" name="ADD_<?php echo $i; ?>" type="submit" value="ADD">
+                        </form>
+                    <?php
+                    } else {
+                    ?>
+                        <button type="button" disabled> ADD</button>
+                    <?php
+                    }
+                    ?>
+                </td>
+            </tr>
         <?php
         }
         ?>
@@ -120,13 +150,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Insert the values into the record table
         $insertQuery = "INSERT INTO `record` (`fid`,`ProjectTitle`, `ProjectDesc`) VALUES ('$fid','$projectTitle', '$projectDesc')";
-        if (mysqli_query($conn, $insertQuery)) {
+        $updateQuery = "UPDATE  `suggestion` set `status`='approved' where `sid`=$suggestionId";
+        $result1=mysqli_query($conn,$updateQuery);
+        $result2=mysqli_query($conn,$insertQuery);
+        if ($result1 && $result2){
             echo '<script>
-                    alert("Record added successfully!");
-                </script>';
-        } else {
+            document.getElementById("popupMessage").innerHTML = "Suggestion Added To The Project Ideas List!";
+            document.getElementById("myModal").style.display = "block";
+        </script>';
+        }else {
             echo "Error: " . $insertQuery . "<br>" . mysqli_error($conn);
         }
+
     } else {
         echo "Error: " . $selectQuery . "<br>" . mysqli_error($conn);
     }

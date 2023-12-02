@@ -1,4 +1,5 @@
 <?php
+session_start();
 $sname = "localhost";
 $uname = "root";
 $password = "";
@@ -8,7 +9,6 @@ if (!$conn) {
     echo "Connection failed";
     exit();
 }
-session_start();
 $fid=$_SESSION['id'];
 $query = "select * from `request` where status='pending' AND fid='$fid'";
 $result = mysqli_query($conn, $query);
@@ -66,6 +66,7 @@ $result = mysqli_query($conn, $query);
     // Function to close the modal
     function closeModal() {
         document.getElementById("myModal").style.display = "none";
+        
     }
     document.getElementById("closeModal").addEventListener("click", closeModal);
   window.addEventListener("click", function(event) {
@@ -112,12 +113,10 @@ $result = mysqli_query($conn, $query);
         
         $select = "UPDATE `student` SET `pid` = '$pid',`progress`=5 WHERE `id` = '$id'";
         $result = mysqli_query($conn, $select);
-        if ($result) {
-            echo '<script>
-                            document.getElementById("popupMessage").innerHTML = "Request approved!";
-                            document.getElementById("myModal").style.display = "block";
-                        </script>';
-            header("Location: request.php");
+        if ($result) {    echo '<script>
+            document.getElementById("popupMessage").innerHTML = "Request Approved!";
+            document.getElementById("myModal").style.display = "block";
+        </script>';
             
         } else {
             echo "Error approving request: " . mysqli_error($conn);
@@ -134,9 +133,9 @@ $result = mysqli_query($conn, $query);
         $result = mysqli_query($conn, $select);
         if ($result) {
             echo '<script>
-                            document.getElementById("popupMessage").innerHTML = "Request Deleted Successfuly!";
-                            document.getElementById("myModal").style.display = "block";
-                        </script>';
+            document.getElementById("popupMessage").innerHTML = "Request Denied";
+            document.getElementById("myModal").style.display = "block";
+        </script>';
         } else {
             echo "Error deleting request: " . mysqli_error($conn);
         }
