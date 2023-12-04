@@ -107,6 +107,7 @@ $result = mysqli_query($conn, $query);
             <th>Project ID</th>
             <th>Project Title</th>
             <th>Project Description</th>
+            <th>SDG Level</th>
             <th>Status</th>
             <th>Request</th>
         </tr>
@@ -133,6 +134,7 @@ $result = mysqli_query($conn, $query);
                     <td><?php echo $row['pid']; ?></td>
                 <td><?php echo $row['ProjectTitle']; ?></td>
                 <td><?php echo $row['ProjectDesc']; ?></td>
+                <td><?php echo $row['SDG']; ?></td>
                 <td style="background-color: <?php echo ($row['Status'] == 1) ? 'lightgreen' : 'rgb(255, 127, 127)'; ?>;">
                     <?php
                     if ($row['Status'] == 1)

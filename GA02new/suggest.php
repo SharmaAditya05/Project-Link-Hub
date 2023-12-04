@@ -111,24 +111,24 @@
 </div>
 <div class="mb-3 m-4" >
         <label for="ProjectSDG" class="form-label colblk"><b>Select SDG</b></label> <br>
-        <select  class="first" name="ProjectSDG" required>
-          <option id="sdg1" value="GOAL 1: No Poverty">GOAL 1: No Poverty </option>
-         <option id="sdg2" value="GOAL 2: Zero Hunger>" >GOAL 2: Zero Hunger </option>
-          <option id="sdg3" value="GOAL 3: Good Health and Well-Being" >GOAL 3: Good Health and Well-Being </option> 
-          <option id="sdg4" value="GOAL 4: Quality Education" >GOAL 4: Quality Education </option> 
-          <option id="sdg5" value="GOAL 5: Gender Equality" >GOAL 5: Gender Equality </option> 
-          <option id="sdg6" value="GOAL 6: Clean Water and Sanitation" >GOAL 6: Clean Water and Sanitation </option> 
-          <option id="sdg7" value="GOAL 7: Affordable and Clean Energy" >GOAL 7: Affordable and Clean Energy </option> 
-          <option id="sdg8" value="GOAL 8: Decent Work and Economic Growth" >GOAL 8: Decent Work and Economic Growth </option> 
-          <option id="sdg9" value="GOAL 9: Industry, Innovation and Infrastructure" >GOAL 9: Industry, Innovation and Infrastructure </option> 
-          <option id="sdg10" value="GOAL 10: Reduced Inequalities" >GOAL 10: Reduced Inequalities </option> 
-          <option id="sdg11" value="GOAL 11: Sustainable Cities and Communities" >GOAL 11: Sustainable Cities and Communities </option> 
-          <option id="sdg12" value="GOAL 12: Responsible Consumption and Production" >GOAL 12: Responsible Consumption and Production </option> 
-          <option id="sdg13" value="GOAL 13: Climate Action" >GOAL 13: Climate Action </option> 
-          <option id="sdg14" value="GOAL 14: Life Below Water" >GOAL 14: Life Below Water </option> 
-          <option id="sdg15" value="GOAL 15: Life On Land" >GOAL 15: Life On Land </option> 
-          <option id="sdg16" value="GOAL 16: Peace, Justice and Strong Institutions" >GOAL 16: Peace, Justice and Strong Institutions </option> 
-          <option id="sdg17" value="GOAL 17: Partnerships for the Goals" >GOAL 17: Partnerships for the Goals </option></div>
+        <select  class="first" name="sdg" required>
+          <option id="sdg" value="GOAL 1: No Poverty">GOAL 1: No Poverty </option>
+         <option id="sdg" value="GOAL 2: Zero Hunger>" >GOAL 2: Zero Hunger </option>
+          <option id="sdg" value="GOAL 3: Good Health and Well-Being" >GOAL 3: Good Health and Well-Being </option> 
+          <option id="sdg" value="GOAL 4: Quality Education" >GOAL 4: Quality Education </option> 
+          <option id="sdg" value="GOAL 5: Gender Equality" >GOAL 5: Gender Equality </option> 
+          <option id="sdg" value="GOAL 6: Clean Water and Sanitation" >GOAL 6: Clean Water and Sanitation </option> 
+          <option id="sdg" value="GOAL 7: Affordable and Clean Energy" >GOAL 7: Affordable and Clean Energy </option> 
+          <option id="sdg" value="GOAL 8: Decent Work and Economic Growth" >GOAL 8: Decent Work and Economic Growth </option> 
+          <option id="sdg" value="GOAL 9: Industry, Innovation and Infrastructure" >GOAL 9: Industry, Innovation and Infrastructure </option> 
+          <option id="sdg" value="GOAL 10: Reduced Inequalities" >GOAL 10: Reduced Inequalities </option> 
+          <option id="sdg" value="GOAL 11: Sustainable Cities and Communities" >GOAL 11: Sustainable Cities and Communities </option> 
+          <option id="sdg" value="GOAL 12: Responsible Consumption and Production" >GOAL 12: Responsible Consumption and Production </option> 
+          <option id="sdg" value="GOAL 13: Climate Action" >GOAL 13: Climate Action </option> 
+          <option id="sdg" value="GOAL 14: Life Below Water" >GOAL 14: Life Below Water </option> 
+          <option id="sdg" value="GOAL 15: Life On Land" >GOAL 15: Life On Land </option> 
+          <option id="sdg" value="GOAL 16: Peace, Justice and Strong Institutions" >GOAL 16: Peace, Justice and Strong Institutions </option> 
+          <option id="sdg" value="GOAL 17: Partnerships for the Goals" >GOAL 17: Partnerships for the Goals </option></div>
         </select>
 </div>
 
@@ -150,7 +150,8 @@ if(isset($_POST['ADD']))
 	{
 	$ProjectTitle=$_POST['ProjectTitle'];	
 	$ProjectDesc=$_POST['ProjectDesc'];
-  
+  $SDG=$_POST['sdg'];	
+  $ProjectTech=$_POST['ProjectTech'];
   if((empty($ProjectTitle))){
    echo "Title is required";
   }
@@ -161,8 +162,8 @@ if(isset($_POST['ADD']))
   else{
     
     $sname=$_SESSION['username'];
-	$sql = "INSERT INTO `suggestion` (`Sname`,`ProjectTitle`, `ProjectDesc`,`Time`) 
-	VALUES('$sname','$ProjectTitle', '$ProjectDesc',now());";
+	$sql = "INSERT INTO `suggestion` (`Sname`,`ProjectTitle`, `ProjectDesc`,`ProjectTech`,`SDG`,`Time`) 
+	VALUES('$sname','$ProjectTitle', '$ProjectDesc','$ProjectTech','$SDG',now());";
 	if(mysqli_query($conn,$sql)){
     echo '<script>
     document.getElementById("popupMessage").innerHTML = "Your suggestions have been well noted!  Thankyou";

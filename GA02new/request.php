@@ -82,20 +82,33 @@ $result = mysqli_query($conn, $query);
         <th> Project-Id </th>
         <th> Project-Title </th>
         <th> Requested By </th>
+        <th> University Roll </th>
         </tr>
         <?php
         while ($rows = mysqli_fetch_assoc($result)) {
+            $id = $rows['id'];
+            $innerquery = "SELECT `name` FROM `users` WHERE `id` = '$id'";
+            $innerResult = mysqli_query($conn, $innerquery);
+            $Sname="";
+            if ($innerResult) {
+                    $rowa = mysqli_fetch_assoc($innerResult);
+                    $Sname = $rowa['name'];
+            } else {
+                echo "Error in the query: " . mysqli_error($conn);
+            }
+        
         ?>
             <tr>
                 <td><?php echo $rows['pid']; ?></td>
                 <td><?php echo $rows['ProjectTitle']; ?></td>
-                <td><?php echo $rows['Sname']; ?></td>
-                <td>
+                <td><?php echo $Sname?></td>
+                <td><?php echo $rows['Sname']?></td>
+                <td style="border:none!important">
                     <form action="request.php" method="POST">
                         <input type="hidden" name="pid" value="<?php echo $rows['pid']; ?>" />
                         <input type="hidden" name="id" value="<?php echo $rows['id']; ?>" />
-                        <td><input class="btn btn-success m-3" type="submit" name="approve" value="Approve"></td>
-                        <td><input class="btn btn-danger m-3" type="submit" name="delete" value="Reject"></td>
+                        <td style="border:none!important"><input class="btn btn-success m-3" type="submit" name="approve" value="Approve"></td>
+                        <td style="border:none!important"><input class="btn btn-danger m-3" type="submit" name="delete" value="Reject"></td>
                     </form>
                 </td>
             </tr>
@@ -129,7 +142,7 @@ $result = mysqli_query($conn, $query);
     if (isset($_POST['delete'])) {
         $id = $_POST['id'];
         $pid = $_POST['pid'];
-        $select = "DELETE FROM request WHERE id = '$id' AND pid='$pid'";
+        $select = "UPDATE `request` SET `status`='rejected' WHERE id = '$id' AND pid='$pid'";
         $result = mysqli_query($conn, $select);
         if ($result) {
             echo '<script>

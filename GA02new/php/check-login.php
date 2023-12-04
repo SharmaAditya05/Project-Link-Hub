@@ -38,7 +38,9 @@ include "..//db_conn.php";
                     $_SESSION['username']=$row['username'];
                     if($_SESSION['role']=='faculty')
                           header("Location: ../Deshboardf.php");
-                    else  header("Location: ../myproject.php");
+                    else if($_SESSION['role']=='hod')
+                          header("Location: ../DashboardA.php");
+                    else  header("Location: ../Dashboard.php");
             }
             else{
                 header("Location: ../login.php?error= Incorrect username or password");    
