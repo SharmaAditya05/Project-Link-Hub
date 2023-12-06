@@ -101,6 +101,9 @@ $result=mysqli_query($conn,$query);
           <th> Student-Name </th> 
           <th> Project-Id</th> 
           <th> Project-Title </th>
+          <th> Synopsis </th>
+          <th> SRS</th>
+          <th> Final Report</th>
           <th> Work Completion Status</th> 
         </tr>
 		 
@@ -111,9 +114,35 @@ $result=mysqli_query($conn,$query);
 		{ 
       
 		?> 
-		<tr> <td><?php echo $rows['Sname']; ?></td> 
+		<tr> <td><?php echo $rows['StudentName']; ?></td> 
 		<td><?php echo $rows['pid']; ?></td> 
 		<td><?php echo $rows['ProjectTitle']; ?></td> 
+    <td> <?php
+    if ($rows['synopsis'] != null) {
+      
+      echo '<a href="download.php?filename=' . $rows['synopsis_filename'] . '&file_column=synopsis">Download</a>';
+
+
+  } else {
+      echo 'No document available';
+  }
+    ?></td> 
+    <td><?php  if ($rows['srs'] != null) {
+      
+      echo '<a href="download.php?filename=' . $rows['srs_filename'] . '&file_column=srs">Download</a>';
+
+
+  } else {
+      echo 'No document available';
+  } ?></td> 
+    <td><?php  if ($rows['finalReport'] != null) {
+      
+      echo '<a href="download.php?filename=' . $rows['finalReport_filename'] . '&file_column=finalReport">Download</a>';
+
+
+  } else {
+      echo 'No document available';
+  } ?></td> 
     <td><div class="progress">
                     <div class="progress-bar" role="progressbar"
                         style="width: <?php echo $rows['progress']; ?>%;" aria-valuenow="<?php echo $rows['progress']; ?>"
