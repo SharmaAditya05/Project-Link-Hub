@@ -20,10 +20,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Perform the update query
     $updateQuery = "UPDATE student SET progress = $newProgress WHERE id = $id";
     mysqli_query($conn, $updateQuery);
-
-    // Redirect back to the main dashboard after updating
+    
+    if($newProgress<20){
+        $updateQuery2 = "UPDATE student SET src = null,synopsis=null,finalReport=null WHERE id = $id";
+    }
+    elseif($newProgress<50){
+        $updateQuery2 = "UPDATE student SET srs=null,finalReport=null WHERE id = $id";
+    }
+    
+    elseif($newProgress<90){
+        $updateQuery2 = "UPDATE student SET finalReport=null WHERE id = $id";
+    }
+    else{
+        header("Location: Deshboardf.php");
+        exit();
+    }
+    mysqli_query($conn, $updateQuery2);
+    
     header("Location: Deshboardf.php");
     exit();
+
 }
 ?>
 
