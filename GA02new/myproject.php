@@ -25,7 +25,39 @@ $result = mysqli_query($conn, $query);
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <style>
-    
+           label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .upload-form {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
         h1{
             text-align:center !important;
             padding:20px;
@@ -117,11 +149,35 @@ $result = mysqli_query($conn, $query);
             </div>
         </div>
     </div>
+    <div id="myModal" class="modal1">
+  <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
+    <p id="popupMessage">Sorry! The Project is Unavailable</p>
+  </div>
+</div>
+<script>
+    // Function to close the modal
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+    document.getElementById("closeModal").addEventListener("click", closeModal);
+  window.addEventListener("click", function(event) {
+        if (event.target == document.getElementById("myModal")) {
+            closeModal();
+        }
+    });
+</script>
     <h1>My Project</h1> 
    <div class="mainbody">
    
     <div class="container">
-        <?php while ($rows = mysqli_fetch_assoc($result)) { 
+        <?php
+        if(mysqli_num_rows($result)==0)
+        {
+            echo "Sorry, Currently
+            you don't have any project to show!";
+        }
+        while ($rows = mysqli_fetch_assoc($result)) { 
             $fid= $rows['fid'];
             $que="Select `name` from `users` where `id` = $fid";
             $fname=mysqli_query($conn,$que);
@@ -132,7 +188,7 @@ $result = mysqli_query($conn, $query);
             <div class="project">
                 <h3><?php echo $rows['ProjectTitle']; ?></h3>
                 <p><?php echo $rows['ProjectDesc']; ?></p>
-                <p>Project Supervisor: <?php echo 'Prof. ',$name['name']?></p>
+                <p>Project Supervisor: <?php echo $name['name']?></p>
                 <div class="work-completed">Work Completed</div>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar"
@@ -141,9 +197,120 @@ $result = mysqli_query($conn, $query);
                 </div>
                 
             </div>
+            <form action="" method="post" enctype="multipart/form-data">
+                    <label for="document_type">Select Document Type:</label>
+                    <select name="document_type" id="document_type">
+                        <option value="synopsis">Synopsis</option>
+                        <option value="srs">SRS</option>
+                        <option value="finalReport">Final Report</option>
+                    </select>
+                    <label for="file">Upload File:</label>
+                    <input  class="btn btn-warning" type="file" name="file" accept=".pdf, .docx, .zip, .rar">
+                    <input type="hidden" id="pid" name="pid" value="<?php echo $rows['pid'];?>">
+                    <input type="submit" value="Upload Document">
+                </form>
         <?php } ?>
     </div>
     </div>
+    
+    
+    
+
+    <?php
+// Connect to the database (similar to your existing code)
+$sname="localhost";
+$uname="root";
+$password="";
+$db_name="my_db";
+$conn=mysqli_connect($sname,$uname,$password,$db_name);
+if(!$conn){
+    echo "Connection failed";
+    exit();
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $pid = $_POST['pid'];
+    $document_type = $_POST['document_type'];
+
+    // Validate document type
+    $allowed_document_types = ['synopsis', 'srs', 'finalReport'];
+    if (!in_array($document_type, $allowed_document_types)) {
+        echo "Invalid document type";
+        exit();
+    }
+
+    // Process the uploaded file
+    $file_name = $_FILES['file']['name'];
+    $file_tmp = $_FILES['file']['tmp_name'];
+    $file_type = $_FILES['file']['type'];
+    $file_size = $_FILES['file']['size'];
+
+    // You may want to add more file validation (e.g., file type, size, etc.)
+    if($file_tmp==null)
+    {
+        echo '<script>
+        document.getElementById("popupMessage").innerHTML = "Kindly select a document first";
+        document.getElementById("myModal").style.display = "block";
+    </script>';
+        
+        exit();
+    }
+    // Read the file content
+    $file_content = file_get_contents($file_tmp);
+
+    // Get the current time
+    $upload_time = date('Y-m-d H:i:s');
+
+    // Update the student table with the uploaded document and time
+    $update_query = "UPDATE student SET progress=?, $document_type=?, time=? WHERE pid=?";
+    // $stmt = mysqli_prepare($conn, $update_query);
+    // mysqli_stmt_bind_param($stmt, "ssi", $file_content, $upload_time, $pid);
+    // mysqli_stmt_execute($stmt);
+
+    
+        $result2 = mysqli_query($conn, $query);
+        $rows = mysqli_fetch_assoc($result2);
+        
+        if($document_type=='synopsis'){
+        $pro=20;
+        $stmt = mysqli_prepare($conn, $update_query);
+        mysqli_stmt_bind_param($stmt,"issi",$pro, $file_content, $upload_time, $pid);
+        mysqli_stmt_execute($stmt);
+        }
+        elseif ($rows['synopsis'] != null && $document_type=='srs'){
+            $pro=50;
+            $stmt = mysqli_prepare($conn, $update_query);
+            mysqli_stmt_bind_param($stmt, "issi",$pro, $file_content, $upload_time, $pid);
+            mysqli_stmt_execute($stmt);
+        }
+        
+        elseif ($rows['srs']!= null && $document_type=='finalReport'){
+            $pro=90;
+            $stmt = mysqli_prepare($conn, $update_query);
+            mysqli_stmt_bind_param($stmt, "issi",$pro, $file_content, $upload_time, $pid);
+            mysqli_stmt_execute($stmt);
+            }
+        else{
+            echo '<script>
+    document.getElementById("popupMessage").innerHTML = "Invalid Ordering";
+    document.getElementById("myModal").style.display = "block";
+</script>';
+            exit();
+        }
+        if (mysqli_affected_rows($conn) > 0) {
+           
+            echo '<script>
+    document.getElementById("popupMessage").innerHTML = "Document uploaded successfully!";
+    document.getElementById("myModal").style.display = "block";
+</script>';
+    } else {
+        echo '<script>
+        document.getElementById("popupMessage").innerHTML = "Error uploading document ";
+        document.getElementById("myModal").style.display = "block";
+    </script>';
+    }
+}
+?>
+
 </body>
 
 </html>
