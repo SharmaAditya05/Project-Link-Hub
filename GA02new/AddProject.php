@@ -165,31 +165,36 @@ if(isset($_POST['ADD']))
   $ProjectTech=$_POST['ProjectTech'];
   $SDG=$_POST['sdg'];
   $id=$_SESSION['id'];
-  if((empty($ProjectTitle))){
-   echo "Title is required";
-  }
-  
-  else if((empty($ProjectDesc))){
-    echo "Project Description is Requires";    
-  }
-  else{
-
-	$sql = "INSERT INTO `record` (`fid`,`ProjectTitle`, `ProjectDesc`,`ProjectTech`,`SDG`) 
-	VALUES('$id','$ProjectTitle', '$ProjectDesc','$ProjectTech','$SDG');";
-	if(mysqli_query($conn,$sql)){
-    echo '<script>
-    document.getElementById("popupMessage").innerHTML = "New project has been added successfully!";
-    document.getElementById("myModal").style.display = "block";
-</script>';}
-	else{
-    echo '<script>
-    document.getElementById("popupMessage").innerHTML = "Something went wrong!";
-    document.getElementById("myModal").style.display = "block";
-</script>';
-	}
+  if (empty($ProjectTitle)) {
+    echo '<script>alert("Title is required");</script>';
+} elseif (empty($ProjectDesc)) {
+  echo '<script>alert("Project Description is required");</script>';
+} elseif (ctype_space($ProjectTitle)) {
+  echo '<script>alert("Title should not contain only white spaces");</script>';
+} elseif (ctype_space($ProjectDesc)) {
+  echo '<script>alert("Project Description should not contain only white spaces");</script>';
+} else {
+  $ProjectTitle = mysqli_real_escape_string($conn, $ProjectTitle);
+  $ProjectDesc = mysqli_real_escape_string($conn, $ProjectDesc);
+  $ProjectTech = mysqli_real_escape_string($conn, $ProjectTech);
+  $SDG = mysqli_real_escape_string($conn, $SDG);
+    // Your existing code for database insertion goes here
+    $sql = "INSERT INTO `record` (`fid`,`ProjectTitle`, `ProjectDesc`,`ProjectTech`,`SDG`) 
+    VALUES('$id','$ProjectTitle', '$ProjectDesc','$ProjectTech','$SDG');";
+    
+    if(mysqli_query($conn,$sql)) {
+        echo '<script>
+        document.getElementById("popupMessage").innerHTML = "New project has been added successfully!";
+        document.getElementById("myModal").style.display = "block";
+        </script>';
+    } else {
+        echo '<script>
+        document.getElementById("popupMessage").innerHTML = "Something went wrong!";
+        document.getElementById("myModal").style.display = "block";
+        </script>';
+    }
 }
-}
-?>
+}?>
 </div>
 </body>
 </html>
